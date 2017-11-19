@@ -10,6 +10,16 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
     
     <context:annotation-config />
-    <context:component-scan base-package="ohtu" />  
+    <context:component-scan base-package="ohtu" /> 
+    <bean id="ide" class="ohtu.services.AuthenticationService">
+        <constructor-arg ref="userDao"/>
+    </bean>
+    <bean id="userDao" class="ohtu.data_access.InMemoryUserDao"/>
+    <bean id="consoleIO" class="ohtu.io.ConsoleIO">
+    </bean>
+    <bean id="app" class="ohtu.App">
+        <constructor-arg ref="consoleIO"/>
+        <constructor-arg ref="ide"/>
+    </bean>
     
 </beans>
