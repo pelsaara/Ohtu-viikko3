@@ -1,2 +1,2 @@
 # Ohtu-viikko3
-Tehtävät ovat mahdollisesti hieman sekaisin, sillä jouduin poistamaan aiemman viikko 3 -reponi opiskelijanumerovuodon vuoksi.
+Repo sisältää viikkojen 3, 4 ja 5 palautettavat tehtävät.
