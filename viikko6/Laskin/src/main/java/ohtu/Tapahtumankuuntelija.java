@@ -1,10 +1,12 @@
 package ohtu;
 
+import ohtu.komento.Komento;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JTextField;
- 
+import java.util.Stack;
+
 public class Tapahtumankuuntelija implements ActionListener {
     private JButton plus;
     private JButton miinus;
@@ -12,8 +14,11 @@ public class Tapahtumankuuntelija implements ActionListener {
     private JButton undo;
     private JTextField tuloskentta;
     private JTextField syotekentta;
-    private Sovelluslogiikka sovellus;
- 
+
+    private Komentotehdas kt;
+    private int val;
+    private Stack<Integer> historia;
+
     public Tapahtumankuuntelija(JButton plus, JButton miinus, JButton nollaa, JButton undo, JTextField tuloskentta, JTextField syotekentta) {
         this.plus = plus;
         this.miinus = miinus;
@@ -21,38 +26,31 @@ public class Tapahtumankuuntelija implements ActionListener {
         this.undo = undo;
         this.tuloskentta = tuloskentta;
         this.syotekentta = syotekentta;
-        this.sovellus = new Sovelluslogiikka();
+        this.kt = new Komentotehdas();
+        this.val = 0;
+        this.historia = new Stack();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         int arvo = 0;
- 
+
         try {
             arvo = Integer.parseInt(syotekentta.getText());
         } catch (Exception e) {
         }
- 
-        if (ae.getSource() == plus) {
-            sovellus.plus(arvo);
-        } else if (ae.getSource() == miinus) {
-            sovellus.miinus(arvo);
-        } else if (ae.getSource() == nollaa) {
-            sovellus.nollaa();
-        } else {
-            System.out.println("undo pressed");
-        }
-        
-        int laskunTulos = sovellus.tulos();
-         
+
+        Komento k = kt.hae(((JButton) ae.getSource()).getText());
+        this.val = k.suorita(historia, this.val, arvo);
+
         syotekentta.setText("");
-        tuloskentta.setText("" + laskunTulos);
-        if ( laskunTulos==0) {
+        tuloskentta.setText("" + this.val);
+        if (this.val == 0) {
             nollaa.setEnabled(false);
         } else {
             nollaa.setEnabled(true);
         }
         undo.setEnabled(true);
     }
- 
+
 }
