@@ -3,6 +3,7 @@ package statistics;
 import statistics.matcher.*;
 
 public class Main {
+
     public static void main(String[] args) {
         Statistics stats = new Statistics(new PlayerReaderImpl("http://nhlstats-2013-14.herokuapp.com/players.txt"));
 
@@ -39,6 +40,22 @@ public class Main {
         );
 
         for (Player player : stats.matches(m)) {
+            System.out.println(player);
+        }
+
+        System.out.println("TEHTÄVÄ 4");
+        System.out.println("");
+        QueryBuilder query = new QueryBuilder();
+
+        Matcher match = query.oneOf(
+                query.playsIn("PHI")
+                        .hasAtLeast(10, "goals")
+                        .hasFewerThan(20, "assists").build(),
+                query.playsIn("EDM")
+                        .hasAtLeast(60, "points").build()
+        ).build();
+
+        for (Player player : stats.matches(match)) {
             System.out.println(player);
         }
     }
